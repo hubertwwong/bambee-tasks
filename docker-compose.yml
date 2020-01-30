@@ -1,0 +1,28 @@
+# docker-compose.yml #
+version: "3.4"
+services:
+  app:
+    build: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+      - 9229:9229
+    environment: 
+      APP_PORT: ${APP_PORT}
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    command: npm start
+  db:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - "bambee-tasks-db:/data/db"
+volumes:
+  bambee-tasks-db:
+  

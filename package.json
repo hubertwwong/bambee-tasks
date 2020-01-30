@@ -1,0 +1,21 @@
+{
+  "name": "bambee-tasks",
+  "version": "1.0.0",
+  "description": "API for tasks list",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "test": "jest"
+  },
+  "author": "Hubert Wong",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.8.10"
+  },
+  "devDependencies": {
+    "jest":"^25.1.0",
+    "nodemon": "^2.0.2"
+  }
+}

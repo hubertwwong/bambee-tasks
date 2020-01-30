@@ -11,7 +11,7 @@ module.exports = mongoose.model('UserTask', new mongoose.Schema({
   tasks: [{
     name: String,
     description: String,
-    status: String,
+    stage: String,
     dueDate: Date
   }]
 }));

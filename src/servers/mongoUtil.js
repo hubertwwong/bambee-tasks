@@ -1,31 +1,43 @@
 const mongoose = require('mongoose');
 
-// store the db instance.
+/**
+ * This is a helper function to connect to the mongodb instance.
+ */
+
+// Store the db instance.
 let _db;
-// connect to db.
-mongoose.connect(`mongodb://${process.env.DB_URL}/test`, 
-// mongoose.connect(`mongodb://db/test`, 
-  {
-    useNewUrlParser: true, 
-    useUnifiedTopology: true
-  }
-);
-_db = mongoose.connection;
 
 module.exports = {
+  // 
   connectToServer: (callback) => {
-    // Wait for server to connect before running the cb.
+    // Connect to db.
+    mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}/${process.env.DB_NAME}?authSource=admin`, 
+    // mongoose.connect(`mongodb://${process.env.DB_URL}/${process.env.DB_NAME}`, 
+    {
+      useNewUrlParser: true, 
+      useUnifiedTopology: true
+    }
+    );
+    _db = mongoose.connection;
+
     _db.on('error', () => {
-      console.log(">>>> Error");
+      console.log("> Connection error");
       process.exit(1);
     });
     _db.once('open', () => {
-      console.log(">>>> Connected to db");
+      console.log("> Connected to db");
       callback();
     });
   },
 
-  getDb: function() {
-    return _db;
-  }
+  // Used to grab the db instance.
+  // I don't think you need this for mongoose.
+  // You need this if you are using mongodb
+  // getDb: function() {
+  //   return _db;
+  // },
+
+  // getMongoose: function() {
+  //   return mongoose;
+  // }
 };

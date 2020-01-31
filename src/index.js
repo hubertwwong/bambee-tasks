@@ -1,5 +1,4 @@
 const express = require('express');
-//const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -19,7 +18,7 @@ db.connectToServer(() => {
   // app.use(express.bodyParser());
 
   // parse application/x-www-form-urlencoded
-  // extended: true strips out extra spaces.
+  // extended: true strips out extra spaces and \n\t.
   app.use(bodyParser.urlencoded({ extended: true }))
 
   // parse application/json
@@ -28,10 +27,12 @@ db.connectToServer(() => {
   // CORS
   app.use(cors());
 
+  // Validation
+  // app.use(expressValidator());
+
   // Register routes
   // ===============
   appRoutes = require('./routes/index')(app); 
-
 
   // Start express.
   app.listen(port, () => console.log(`Bambee Tasks listening on port ${port}!`));

@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const user = require('./user');
-
-module.exports = mongoose.model('UserTask', new mongoose.Schema({
+let UserTasksSchema = new mongoose.Schema({
   userID: {
     type: String,
     index: true,
@@ -14,4 +12,6 @@ module.exports = mongoose.model('UserTask', new mongoose.Schema({
     stage: String,
     dueDate: Date
   }]
-}));
+});
+
+module.exports = mongoose.model('UserTask', UserTasksSchema);

@@ -9,7 +9,7 @@ router.get('/', tasks.taskList);
 router.get('/:id', tasks.taskDetail);
 router.post('/', val.validate('createTask'), errors, tasks.taskCreate);
 router.delete('/:id', tasks.taskDelete);
-router.put('/:id', tasks.taskUpdatePut);
-router.patch('/:id', tasks.taskUpdatePatch);
+router.put('/:id', val.validate('putTaskV2'), errors, tasks.taskUpdatePut);
+router.patch('/:id', val.validate('patchTask'), errors, tasks.taskUpdatePatch);
 
 module.exports = router;

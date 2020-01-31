@@ -6,6 +6,7 @@ const UserModel = require('./userModel');
  * 
  * @param userID - MongoDB internal id in the user table.
  * @param task - Object that is in this format {name: yourTask, description: youDesc, dueDate: dueDate}
+ * @returns - Resolved or rejected promise.
  */
 exports.createTask = async (userID, task) => {
   try {
@@ -16,7 +17,6 @@ exports.createTask = async (userID, task) => {
       })));
     }
 
-    console.log("> in create task model >" + userID);
     // Find the user. Want to make sure that the user is in the db before writing to UserTask
     let user = await UserModel.find(userID);
     if (user) {
@@ -50,26 +50,136 @@ exports.createTask = async (userID, task) => {
         status: 404
       })));
   } catch(err) {
-    // Nested error object. Think on how you how you might want to handle this.
-    // Currently, i'm using passing the err object if it see ones.
-    // Create a new one otherwise.
+    // Nested error object. 
+    // Currently passing the original error back. Thinking on how this might be better.
     if (err.message) {return Promise.reject(err); }
     return Promise.reject(new Error(err));
   }
 }
 
 /**
- * UNTESTED
+ * Update a task in the userTask table.
+ * 
+ * @param userID - MongoDB internal id of the user.
+ * @param taskID - MongoDB internal id of the user task.
+ * @param task - Task object to be updated.
+ * @returns - Resolved or rejected promise.
  */
-// exports.getTask = async (userID, id) => {
-//   try {
-//     let tasks = [];
+exports.updateTask = async (userID, taskID, task) => {
+  try {
+    console.log("> updateTask model");
+    if (!userID || !task || !task.name || !task.description || !task.dueDate || !task.stage || !taskID) {
+      return Promise.reject(new Error(JSON.stringify({
+        message: "Param not specified",
+        status: 422
+      })));
+    }
+
+    // Find the user. Want to make sure that the user is in the db before writing to UserTask
+    let user = await UserModel.find(userID);
+    console.log("> AFTER user " + user);
+    if (user) {
+      // Find the user in UserTask table
+      let userTask = null;
+      try {
+        console.log("> getting user in usertask");
+        userTask = await this.getUser(userID);
+      } catch(err) {
+        // If it could not find the actual user in userTask, task can't be found so return an error.
+        return Promise.reject(new Error(JSON.stringify({
+          message: "Task not found",
+          status: 404
+        })));
+      }
+
+      // Find the specific task off the user.
+      console.log("> before pushing task " + userTask);
+      let foundTask = userTask.tasks.id(taskID);
+      // Make a check if the task exist for the user
+      // If not, return an error.
+      if (!foundTask) {
+        return Promise.reject(new Error(JSON.stringify({
+          message: "Task not found",
+          status: 404
+        })));
+      }
+      
+      // Update the task.
+      foundTask.name = task.name;
+      foundTask.description = task.description;
+      foundTask.stage = task.stage;
+      foundTask.dueDate = task.dueDate;
+      console.log(foundTask);
+      await userTask.save();
+      console.log("> after pushing task " + userTask.tasks);
+      
+      return "done";
+    }
     
-    
-//   } catch(err) {
-//     return Promise.reject(new Error(err));
-//   }
-// }
+    return Promise.reject(new Error(JSON.stringify({
+        message: "User not found",
+        status: 404
+      })));
+  } catch(err) {
+    // Nested error object. 
+    // Currently passing the original error back. Thinking on how this might be better.
+    if (err.message) {return Promise.reject(err); }
+    return Promise.reject(new Error(err));
+  }
+}
+
+/**
+ * Get a specific task by a user.
+ */
+exports.getTask = async(userID, taskID) => {
+  try {
+    if (!userID || !taskID) {
+      return Promise.reject(new Error(JSON.stringify({
+        message: "Param not specified",
+        status: 422
+      })));
+    }
+
+    const userTask = await this.getUser(userID);
+    const task = userTask.tasks.id(taskID); 
+
+    if (!task) {
+      return Promise.reject(new Error(JSON.stringify({
+        message: "Task not found",
+        status: 404
+      })));
+    }
+    return task;
+  } catch(err) {
+    if (err.message) {return Promise.reject(err); }
+    return Promise.reject(new Error(err));
+  }
+}
+
+/**
+ * Get all tasks for the user.
+ * 
+ * if the id is specified, it returns the specific task.
+ * 
+ * @param userID - mongo id of the user.
+ * @returns array of tasks
+ */
+exports.getTasks = async (userID) => {
+  try {
+    if (!userID) {
+      return Promise.reject(new Error(JSON.stringify({
+        message: "Param not specified",
+        status: 422
+      })));
+    }
+
+    const userTask = await this.getUser(userID);
+    return userTask.tasks;
+  } catch(err) {
+    if (err.message) {return Promise.reject(err); }
+    return Promise.reject(new Error(err));
+  }
+}
 
 /**
  * Get a specific user from the UserTask table

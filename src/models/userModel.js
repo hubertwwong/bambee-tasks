@@ -1,4 +1,6 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+//var token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
 const UserGooseModel = require('../mongoose/models/userGooseModel');
 
@@ -26,8 +28,11 @@ exports.register = async (username, password) => {
         username: username,
         password: hash
       });
-      let res = await newUser.save();
-      return res;
+      let user = await newUser.save();
+      const tokenWithUserID = await jwt.sign({id: user.id}, process.env.JWT_SECRET_KEY);
+      // console.log("> REGISTER");
+      // console.log(res);
+      return Promise.resolve({jwtToken: tokenWithUserID});
     }
     
     return Promise.reject(new Error(JSON.stringify({
@@ -55,11 +60,11 @@ exports.signin = async (username, password) => {
       })));
     }
 
-    let existingUser = await UserGooseModel.find({username: username});
+    let existingUser = await UserGooseModel.findOne({username: username});
     // Check for existing user before trying to register them.
-    if (existingUser && existingUser.length > 0) {
+    if (existingUser) {
       // Hash the password. We are storing that rather than the actual password.
-      let res = await bcrypt.compareSync(password, existingUser[0].password);
+      let res = await bcrypt.compareSync(password, existingUser.password);
       
       // Password failed.
       if (!res){
@@ -70,7 +75,12 @@ exports.signin = async (username, password) => {
       };
 
       // Returning the user.
-      return Promise.resolve(existingUser[0]);
+      const tokenWithUserID = await jwt.sign({id: existingUser.id}, process.env.JWT_SECRET_KEY);
+      // console.log(existingUser);
+      // console.log(token);
+      // const ba = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+      // console.log(ba);
+      return Promise.resolve({jwtToken: tokenWithUserID});
     }
     
     return Promise.reject(new Error(JSON.stringify({

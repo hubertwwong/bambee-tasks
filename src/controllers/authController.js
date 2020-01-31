@@ -20,9 +20,9 @@ const {errorRender} = require('../util/misc');
 exports.authLogin = async (req, res) => {
   try {
     // console.log("> authLogin controller " + req.body.username + "|" + req.body.password);
-    let user = await UserModel.signin(req.body.username, req.body.password);
+    let jwtTokenObj = await UserModel.signin(req.body.username, req.body.password);
     // console.log("> output of authLogin " + user);
-    res.json({message: 'User signed in'});
+    res.json(jwtTokenObj);
   } catch(err) {
     errorRender(err, res);
   }
@@ -43,8 +43,8 @@ exports.authLogin = async (req, res) => {
  */
 exports.authRegister = async (req, res) => {
   try {
-    await UserModel.register(req.body.username, req.body.password);
-    res.json({message:'User registered'});
+    let jwtTokenObj = await UserModel.register(req.body.username, req.body.password);
+    res.json(jwtTokenObj);
   } catch(err) {
     errorRender(err, res);
   }

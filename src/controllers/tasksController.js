@@ -43,7 +43,12 @@ exports.taskCreate = async (req, res) => {
 
 // Handle Task delete on POST.
 exports.taskDelete = async (req, res) => {
-  res.send('NOT IMPLEMENTED: Task delete POST');
+  try {
+    let task = await UserTaskModel.deleteTask(req.user.id, req.params.id);
+    res.json({message: 'Task deleted'});
+  } catch(err) {
+    errorRender(err, res);
+  }
 };
 
 /**

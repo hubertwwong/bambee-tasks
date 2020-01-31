@@ -5,16 +5,20 @@
 
 /**
  * A simple error handler for the controller to DRY things.
+ * Assumes error messages are either simple or in this format
+ * 
+ * {
+ *  message: "Your error message"
+ *  status: 404 
+ * }
  * 
  * Takes the error objects and tries to return it in a consistent fashion.
  * 
- * @param err Error object from catch block.
- * @param res Response handler from express.
+ * @param err - Error object.
+ * @param res - Response handler from express.
  */
-exports.errorDisp = (err, res) => {
-  console.log("GOT HERE");
-  console.log(err);
+exports.errorRender = (err, res) => {
   const errJSON = JSON.parse(err.message);
-  if (errJSON.statusCode) {res.status(errJSON.status)};
+  if (errJSON.status) {res.status(errJSON.status)};
   res.json(errJSON);
 }

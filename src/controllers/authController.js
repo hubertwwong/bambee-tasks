@@ -1,4 +1,5 @@
 const UserModel = require('../models/userModel');
+const {errorRender} = require('../util/misc');
 
 /**
  * Login a user
@@ -12,17 +13,13 @@ const UserModel = require('../models/userModel');
  */
 exports.authLogin = async (req, res) => {
   try {
-    console.log("> authLogin controller " + req.body.username + "|" + req.body.password);
+    // console.log("> authLogin controller " + req.body.username + "|" + req.body.password);
     let user = await UserModel.signin(req.body.username, req.body.password);
-    console.log("> output of authLogin " + user);
+    // console.log("> output of authLogin " + user);
     res.json({message: 'User signed in'});
   } catch(err) {
-    console.log("> CATCH " + err.message);
-    const errJSON = JSON.parse(err.message);
-    if (errJSON.statusCode) {res.status(errJSON.status)};
-    res.json(errJSON);
+    errorRender(err, res);
   }
-  return "done";
 };
 
 /**
@@ -37,7 +34,6 @@ exports.authRegister = async (req, res) => {
     await UserModel.register(req.body.username, req.body.password);
     res.json({message:'User registered'});
   } catch(err) {
-    res.status(422);
-    res.json({message: "User is already registered"});
+    errorRender(err, res);
   }
 };

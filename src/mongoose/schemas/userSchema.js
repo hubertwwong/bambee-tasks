@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 
 let UserSchema = new mongoose.Schema({
   username: {
@@ -10,6 +9,4 @@ let UserSchema = new mongoose.Schema({
   password: String
 });
 
-// Wrapping the schema and model in one.
-// Mongoose schemas are fancy constructors.
-module.exports = mongoose.model('User', UserSchema);
+module.exports = UserSchema;

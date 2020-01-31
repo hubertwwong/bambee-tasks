@@ -11,7 +11,8 @@ const { validationResult } = require('express-validator');
 module.exports = (req, res, next) => {
   const errors = validationResult(req);
   // You only want this to fire if there are any error messages.
-  if (errors && errors.length > 0) {
+  if (!errors.isEmpty()) {
+    console.log(">IN ERROR");
     res.status(422).json({ errors: errors.array() }).end();
   };
   next();

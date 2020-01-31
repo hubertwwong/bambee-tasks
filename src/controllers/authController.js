@@ -4,9 +4,15 @@ const {errorRender} = require('../util/misc');
 /**
  * Login a user
  * 
+ * Body:
+ * {
+ *  username: YourUserName
+ *  password: yourPassword
+ * }
+ * 
  * TODO:
- * 1. Check params correctness.
- * 2. Check if user actually is in db.
+ * 1. Check params correctness. (DONE)
+ * 2. Check if user actually is in db. (DONE)
  * 3. Check if password is correct before generating a JWT token.
  * 
  * @returns Sends a JWT token or an error message.
@@ -25,9 +31,15 @@ exports.authLogin = async (req, res) => {
 /**
  * Register a user.
  * 
+ * Body:
+ * {
+ *  username: YourUserName
+ *  password: yourPassword
+ * }
+ * 
  * TODO:
- * 1. Check for params.
- * 2. Check for existing users.
+ * 1. Check for params. (DONE)
+ * 2. Check for existing users. (DONE)
  */
 exports.authRegister = async (req, res) => {
   try {

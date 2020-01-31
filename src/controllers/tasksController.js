@@ -8,7 +8,13 @@ exports.taskDetail = (req, res) => {
   res.send('NOT IMPLEMENTED: Task detail: ' + req.params.id);
 };
 
-// Handle Task create on POST.
+/**
+ * Creates a task
+ * 
+ * TODO:
+ * 1. check params.
+ * 2. 
+ */
 exports.taskCreate = (req, res) => {
   res.send('NOT IMPLEMENTED: Task create POST');
 };

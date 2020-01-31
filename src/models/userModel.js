@@ -91,3 +91,33 @@ exports.signin = async (username, password) => {
     return Promise.reject(new Error(err));
   }
 };
+
+/**
+ * Find a userID.
+ * 
+ * Note: This is not exposed to the API.
+ * 
+ * @param userID - mongo id of the user.
+ * @returns user
+ */
+exports.find = async(userID) => {
+  try {
+    if (!userID) {
+      return Promise.reject(new Error(JSON.stringify({
+        message: "Required params not passed in",
+        status: 422
+      })));
+    }
+    let existingUser = await UserGooseModel.findOne({_id: userID});
+    if (existingUser) {
+      return existingUser;
+    }
+
+    return Promise.reject(new Error(JSON.stringify({
+      message: "User not found",
+      status: 404
+    })));
+  } catch(err) {
+    return Promise.reject(new Error(err));
+  }
+}

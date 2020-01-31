@@ -28,4 +28,3 @@ services:
       - "bambee-tasks-db:/data/db"
 volumes:
   bambee-tasks-db:
-  

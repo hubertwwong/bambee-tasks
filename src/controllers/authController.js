@@ -4,10 +4,17 @@ const {errorRender} = require('../util/misc');
 /**
  * Login a user
  * 
+ * Upon sucessful login, this will return a jwtToken.
+ * 
  * Request body should look like:
  * {
  *  username: YourUserName
  *  password: yourPassword
+ * }
+ * 
+ * Token should come in this format.
+ * {
+ *  jwtToken: YourJWTToken
  * }
  */
 exports.authLogin = async (req, res) => {
@@ -22,10 +29,17 @@ exports.authLogin = async (req, res) => {
 /**
  * Register a user.
  * 
+ * Upon sucessful login, this will return a jwtToken.
+ * 
  * Request body should look like:
  * {
  *  username: YourUserName
  *  password: yourPassword
+ * }
+ * 
+ * Token should come in this format.
+ * {
+ *  jwtToken: YourJWTToken
  * }
  */
 exports.authRegister = async (req, res) => {

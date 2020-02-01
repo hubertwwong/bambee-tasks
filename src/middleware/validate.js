@@ -1,14 +1,16 @@
 /**
- * Validate controller params using the express-validator middleware.
+ * express-validator middleware configuration.
+ * 
+ * I kept the validation simple.
+ * Just validiating if dates are iso and that other fields exist.
+ * Can add more if needed.
  */
 
 const { body, oneOf } = require('express-validator')
 
-// const {validateTaskPatchV1, validateTaskPatchV2} = require('./customValidators');
 const constants = require('./constants');
 
 exports.validate = (method) => {
-  // console.log(">>>> VALIDATE " + method);
   switch (method) {
     case 'user': {
       return [ 

@@ -22,7 +22,12 @@ exports.validate = (method) => {
         body('dueDate', `dueDate doesn't exists in body`).exists(),
       ];
     }
-    case 'patchTask': {
+    case 'patchTaskV1': {
+      return [
+        validateTaskPatchV1
+      ];
+    }
+    case 'patchTaskV2': {
       return [
         validateTaskPatchV2
       ];

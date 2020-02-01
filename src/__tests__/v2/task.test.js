@@ -453,11 +453,11 @@ describe('task', () => {
            expect(resObj.description).toBe("newDesc");
         });
 
-        test('date: 01/03/2000', async () => {
+        test('date: 2000-01-03', async () => {
           res = await request(app)        
            .patch(`/v2/tasks/${taskID}`)
            .set('Authorization', `Bearer ${jwtGood}`)
-           .send({dueDate: "01/03/2000"});
+           .send({dueDate: "2000-01-03"});
   
           expect(res.status).toBe(200);
           
@@ -468,7 +468,7 @@ describe('task', () => {
           
            resObj = JSON.parse(res.text);
            expect(res.status).toBe(200);
-           expect(resObj.dueDate).toBe(new Date("01/03/2000").toISOString());
+           expect(resObj.dueDate).toBe(new Date("2000-01-03").toISOString());
         });
       });
 
@@ -581,7 +581,7 @@ describe('task', () => {
       let updateTask = {
         name: 'task2', 
         description: 'desc2',
-        dueDate: '01/01/2020',
+        dueDate: '2000-01-03',
         stage: "Completed"
       };
 
@@ -694,7 +694,6 @@ describe('task', () => {
         expect(JSON.parse(res.text).errors).not.toBe(null);
       });
 
-
       test('Unable to update a task with missing stage', async () => {
         let res = await request(app)        
           .put(`/v2/tasks/${taskID}`)
@@ -709,6 +708,20 @@ describe('task', () => {
         expect(JSON.parse(res.text).errors).not.toBe(null);
       });
 
+      test('Unable to update a task with an illegal stage value {stage: "ILLEGAL"}', async () => {
+        let res = await request(app)        
+          .put(`/v2/tasks/${taskID}`)
+          .set('Authorization', `Bearer ${jwtGood}`)
+          .send({
+            name: 'task1',
+            description: 'desc1',
+            dueDate: Date.now(),
+            stage: "ILLEGAL"
+          });
+        
+        expect(res.status).toBe(422);
+        expect(JSON.parse(res.text).errors).not.toBe(null);
+      });
       // Probably should have input type validation test.
     });
   });

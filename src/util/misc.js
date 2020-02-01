@@ -21,7 +21,7 @@
  * @param res - Response handler from express.
  */
 exports.errorRender = (err, res) => {
-  console.log(err);
+  // console.log(err);
   if (err.message) {
     const errJSON = JSON.parse(err.message);
     if (errJSON.status) {

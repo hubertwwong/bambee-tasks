@@ -8,6 +8,7 @@ const {validateTaskPatchV1, validateTaskPatchV2} = require('./customValidators')
 const constants = require('./constants');
 
 exports.validate = (method) => {
+  // console.log(">>>> VALIDATE " + method);
   switch (method) {
     case 'user': {
       return [ 

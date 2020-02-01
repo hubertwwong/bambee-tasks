@@ -4,26 +4,16 @@ const {errorRender} = require('../util/misc');
 /**
  * Login a user
  * 
- * Body:
+ * Request body should look like:
  * {
  *  username: YourUserName
  *  password: yourPassword
  * }
- * 
- * TODO:
- * 1. Check params correctness. (DONE)
- * 2. Check if user actually is in db. (DONE)
- * 3. Check if password is correct before generating a JWT token.
- * 
- * @returns Sends a JWT token or an error message.
  */
 exports.authLogin = async (req, res) => {
   try {
-    // console.log("> authLogin controller " + req.body.username + "|" + req.body.password);
     let jwtTokenObj = await UserModel.signin(req.body.username, req.body.password);
-    // console.log("> output of authLogin " + user);
     res.json(jwtTokenObj);
-    console.log("> GOT HERE");
   } catch(err) {
     errorRender(err, res);
   }
@@ -32,15 +22,11 @@ exports.authLogin = async (req, res) => {
 /**
  * Register a user.
  * 
- * Body:
+ * Request body should look like:
  * {
  *  username: YourUserName
  *  password: yourPassword
  * }
- * 
- * TODO:
- * 1. Check for params. (DONE)
- * 2. Check for existing users. (DONE)
  */
 exports.authRegister = async (req, res) => {
   try {

@@ -23,11 +23,11 @@ exports.createTask = async (userID, task) => {
       // Find the user in UserTask table
       let userTask = null;
       try {
-        console.log("> getting user in usertask");
+        // console.log("> getting user in usertask");
         userTask = await this.getUser(userID);
-        console.log("> got user task" + userTask);
+        // console.log("> got user task" + userTask);
       } catch(err) {
-        console.log("> hit the catch block");
+        // console.log("> hit the catch block");
         // User not found in user task. Create it.
         userTask = new UserTaskGooseModel({
           userID: userID,
@@ -37,11 +37,11 @@ exports.createTask = async (userID, task) => {
       }
 
       // Add the task.
-      console.log("> before pushing task " + userTask);
+      // console.log("> before pushing task " + userTask);
       task.stage = "New";
       userTask.tasks.push(task);
       await userTask.save();
-      console.log("> after pushing task " + userTask);
+      // console.log("> after pushing task " + userTask);
       return "done";
     }
     
@@ -66,7 +66,7 @@ exports.createTask = async (userID, task) => {
  */
 exports.deleteTask = async (userID, taskID) => {
   try {
-    console.log("> delete task model");
+    // console.log("> delete task model");
     if (!userID || !taskID) {
       return Promise.reject(new Error(JSON.stringify({
         message: "Param not specified",
@@ -76,12 +76,12 @@ exports.deleteTask = async (userID, taskID) => {
 
     // Find the user. Want to make sure that the user is in the db.
     let user = await UserModel.find(userID);
-    console.log("> AFTER user " + user);
+    // console.log("> AFTER user " + user);
     if (user) {
       // Find the user in UserTask table
       let userTask = null;
       try {
-        console.log("> getting user in usertask");
+        // console.log("> getting user in usertask");
         userTask = await this.getUser(userID);
       } catch(err) {
         // If it could not find the actual user in userTask, task can't be found so return an error.
@@ -92,7 +92,7 @@ exports.deleteTask = async (userID, taskID) => {
       }
 
       // Find the specific task off the user.
-      console.log("> before pushing task " + userTask);
+      // console.log("> before pushing task " + userTask);
       let foundTask = userTask.tasks.id(taskID);
       // Make a check if the task exist for the user
       // If not, return an error.
@@ -104,10 +104,10 @@ exports.deleteTask = async (userID, taskID) => {
       }
 
       // Delete the task.
-      console.log(foundTask);
+      // console.log(foundTask);
       foundTask.remove();
       await userTask.save();
-      console.log("> after pushing task " + userTask.tasks);
+      // console.log("> after pushing task " + userTask.tasks);
       
       return "done";
     }
@@ -198,10 +198,12 @@ exports.getUser = async (userID) => {
 
     if (userID) {
       let userTask = await UserTaskGooseModel.findOne({userID: userID});
-      console.log("> retruring " + userTask);
+      // console.log("> retruring " + userTask);
 
       // Check if UserTask was found or not once you verified the user exist.
       if (!userTask) {
+        // Favoring returning an empty array rathen than an error.
+        // return Promise.resolve({tasks:[]});
         return Promise.reject(new Error(JSON.stringify({
           message: "User found but UserTask not found",
           status: 404
@@ -231,7 +233,7 @@ exports.getUser = async (userID) => {
  */
 exports.updateTask = async (userID, taskID, task) => {
   try {
-    console.log("> updateTask model");
+    // console.log("> updateTask model");
     if (!userID || !task || !taskID) {
       return Promise.reject(new Error(JSON.stringify({
         message: "Param not specified",
@@ -241,12 +243,12 @@ exports.updateTask = async (userID, taskID, task) => {
 
     // Find the user. Want to make sure that the user is in the db before writing to UserTask
     let user = await UserModel.find(userID);
-    console.log("> AFTER user " + user);
+    // console.log("> AFTER user " + user);
     if (user) {
       // Find the user in UserTask table
       let userTask = null;
       try {
-        console.log("> getting user in usertask");
+        // console.log("> getting user in usertask");
         userTask = await this.getUser(userID);
       } catch(err) {
         // If it could not find the actual user in userTask, task can't be found so return an error.
@@ -257,7 +259,7 @@ exports.updateTask = async (userID, taskID, task) => {
       }
 
       // Find the specific task off the user.
-      console.log("> before pushing task " + userTask);
+      // console.log("> before pushing task " + userTask);
       let foundTask = userTask.tasks.id(taskID);
       // Make a check if the task exist for the user
       // If not, return an error.
@@ -274,9 +276,9 @@ exports.updateTask = async (userID, taskID, task) => {
       if (task.description) { foundTask.description = task.description };
       if (task.stage) { foundTask.stage = task.stage };
       if (task.dueDate) { foundTask.dueDate = task.dueDate };
-      console.log(foundTask);
+      // console.log(foundTask);
       await userTask.save();
-      console.log("> after pushing task " + userTask.tasks);
+      // console.log("> after pushing task " + userTask.tasks);
       
       return "done";
     }

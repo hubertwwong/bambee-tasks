@@ -30,7 +30,6 @@ async function run() {
     
     // Register middleware
     // ===================
-    // NOTE TO SELF. REMEMBER TO PUT MIDDLEWARE BEFORE ROUTES.
     
     // express own body parser.
     // app.use(express.bodyParser());
@@ -43,6 +42,7 @@ async function run() {
     //app.use(bodyParser.json())
     
     // Apparently the order matters of these 2 items.
+    // These go frist...
     // https://stackoverflow.com/questions/39470566/request-body-undefined-in-supertest
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
@@ -54,12 +54,20 @@ async function run() {
     // app.use(expressValidator());
 
     // Register routes
+    // NOTE: PUT THIS AFTER ALL MIDDLEWARE
     // ===============
     appRoutes = require('../routes/index')(app); 
 
     // Start express.
     console.log("> on server");
-    app.listen(port, () => console.log(`Bambee Tasks listening on port ${port}!`));
+    // DON'T LISTEN ON A PORT IF USING TEST ENV.
+    // SUPER TEST DOES NOT NEED ONE.
+    if (process.env.NODE_ENV !== 'test') {
+      app.listen(port, () => console.log(`Bambee Tasks listening on port ${port}!`));
+    }
+    
+    app.on('close', () => console.log('> Closing') );
+
     return app;
   } catch(err) {
     console.log(err);

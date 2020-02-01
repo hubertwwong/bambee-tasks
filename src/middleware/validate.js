@@ -2,11 +2,10 @@
  * Validate controller params using the express-validator middleware.
  */
 
-const { body, params } = require('express-validator')
+const { body } = require('express-validator')
 
-const STAGE_KEYWORDS_V1 = ['New', 'Completed'];
-const STAGE_KEYWORDS_V2 = ['New', 'Completed', 'In-Progress'];
-
+const {validateTaskPatchV1, validateTaskPatchV2} = require('./customValidators');
+const constants = require('./constants');
 
 exports.validate = (method) => {
   switch (method) {
@@ -24,11 +23,8 @@ exports.validate = (method) => {
       ];
     }
     case 'patchTask': {
-      return [ 
-        body('name', `name doesn't exists in body`).optional(),
-        body('description', `description doesn't exists in body`).optional(),
-        body('dueDate', `dueDate doesn't exists in body`).optional(),
-        body('stage', `stage doesn't exists in body`).optional(),
+      return [
+        validateTaskPatchV2
       ];
     }
     case 'putTaskV1': {
@@ -36,7 +32,7 @@ exports.validate = (method) => {
         body('name', `name doesn't exists in body`).exists(),
         body('description', `description doesn't exists in body`).exists(),
         body('dueDate', `dueDate doesn't exists in body`).exists(),
-        body('stage', `stage doesn't exists in body or is not ${STAGE_KEYWORDS_V2}`).exists().isIn(STAGE_KEYWORDS_V1),
+        body('stage', `stage doesn't exists in body or is not ${constants.v1.stage}`).exists().isIn(constants.v1.stage),
       ];
     }
     case 'putTaskV2': {
@@ -44,7 +40,7 @@ exports.validate = (method) => {
         body('name', `name doesn't exists in body`).exists(),
         body('description', `description doesn't exists in body`).exists(),
         body('dueDate', `dueDate doesn't exists in body`).exists(),
-        body('stage', `stage doesn't exists in body or not these values ${STAGE_KEYWORDS_V2}`).exists().isIn(STAGE_KEYWORDS_V2),
+        body('stage', `stage doesn't exists in body or not these values ${constants.v2.stage}`).exists().isIn(constants.v2.stage),
       ];
     }
   }

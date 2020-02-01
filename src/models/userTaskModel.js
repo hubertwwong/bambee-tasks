@@ -222,6 +222,7 @@ exports.getUser = async (userID) => {
 
 /**
  * Update a task in the userTask table.
+ * This is used for PUT/PATCH
  * 
  * @param userID - MongoDB internal id of the user.
  * @param taskID - MongoDB internal id of the user task.
@@ -231,7 +232,7 @@ exports.getUser = async (userID) => {
 exports.updateTask = async (userID, taskID, task) => {
   try {
     console.log("> updateTask model");
-    if (!userID || !task || !task.name || !task.description || !task.dueDate || !task.stage || !taskID) {
+    if (!userID || !task || !taskID) {
       return Promise.reject(new Error(JSON.stringify({
         message: "Param not specified",
         status: 422
@@ -268,10 +269,11 @@ exports.updateTask = async (userID, taskID, task) => {
       }
 
       // Update the task.
-      foundTask.name = task.name;
-      foundTask.description = task.description;
-      foundTask.stage = task.stage;
-      foundTask.dueDate = task.dueDate;
+      // Checking if each field exist before updating them.
+      if (task.name) { foundTask.name = task.name };
+      if (task.description) { foundTask.description = task.description };
+      if (task.stage) { foundTask.stage = task.stage };
+      if (task.dueDate) { foundTask.dueDate = task.dueDate };
       console.log(foundTask);
       await userTask.save();
       console.log("> after pushing task " + userTask.tasks);

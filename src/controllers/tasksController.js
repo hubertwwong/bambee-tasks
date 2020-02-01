@@ -65,6 +65,10 @@ exports.taskUpdatePut = async (req, res) => {
 
 // Handle Task update on PATCH.
 exports.taskUpdatePatch = async (req, res) => {
-  console.log(req.body);
-  res.send('NOT IMPLEMENTED: Task update PATCH');
+  try {
+    let tasks = await UserTaskModel.updateTask(req.user.id, req.params.id, req.body);
+    res.json({"message": "Task updated"});
+  } catch(err) {
+    errorRender(err, res);
+  }
 };

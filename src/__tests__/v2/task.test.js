@@ -311,6 +311,251 @@ describe('task', () => {
     });
   });
 
+  describe('PATCH /v2/tasks/{id}', () => {
+    let taskID;
+    let origTask = {
+      name: 'task1', 
+      description: 'desc1',
+      dueDate: Date.now()
+    };
+    
+    beforeEach( async () => {
+      let res = await request(app)        
+          .post('/v2/tasks')
+          .set('Authorization', `Bearer ${jwtGood}`)
+          .send(origTask);
+
+        res = await request(app)        
+          .get('/v2/tasks')
+          .set('Authorization', `Bearer ${jwtGood}`)
+          .send();
+        taskID = JSON.parse(res.text)[0]['_id'];
+    });
+
+    describe('Use cases', () => {
+      let updateTask = {
+        name: 'task2', 
+        description: 'desc2',
+        dueDate: '01/01/2020',
+        stage: "Completed"
+      };
+
+      test('Able to update all fields', async () => {
+        res = await request(app)        
+         .patch(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtGood}`)
+         .send(updateTask);
+
+        expect(res.status).toBe(200);
+        
+        res = await request(app)        
+         .get(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtGood}`)
+         .send();
+        
+         resObj = JSON.parse(res.text);
+         expect(res.status).toBe(200);
+         expect(resObj.name).toBe(updateTask.name);
+         expect(resObj.description).toBe(updateTask.description);
+         expect(resObj.dueDate).toBe(new Date(updateTask.dueDate).toISOString());
+         expect(resObj.stage).toBe(updateTask.stage);
+      });
+
+      describe('Able to set specifc field', () => {
+        test('stage: Completed', async () => {
+          res = await request(app)        
+           .patch(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send({stage: "Completed"});
+  
+          expect(res.status).toBe(200);
+          
+          res = await request(app)        
+           .get(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send();
+          
+           resObj = JSON.parse(res.text);
+           expect(res.status).toBe(200);
+           expect(resObj.stage).toBe("Completed");
+        });
+
+        test('stage: In-Progress', async () => {
+          res = await request(app)        
+           .patch(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send({stage: "In-Progress"});
+  
+          expect(res.status).toBe(200);
+          
+          res = await request(app)        
+           .get(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send();
+          
+           resObj = JSON.parse(res.text);
+           expect(res.status).toBe(200);
+           expect(resObj.stage).toBe("In-Progress");
+        });
+
+
+        test('stage: New', async () => {
+          res = await request(app)        
+           .patch(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send({stage: "New"});
+  
+          expect(res.status).toBe(200);
+          
+          res = await request(app)        
+           .get(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send();
+          
+           resObj = JSON.parse(res.text);
+           expect(res.status).toBe(200);
+           expect(resObj.stage).toBe("New");
+        });
+
+        test('name: foooo', async () => {
+          res = await request(app)        
+           .patch(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send({name: "foooo"});
+  
+          expect(res.status).toBe(200);
+          
+          res = await request(app)        
+           .get(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send();
+          
+           resObj = JSON.parse(res.text);
+           expect(res.status).toBe(200);
+           expect(resObj.name).toBe("foooo");
+        });
+
+        test('description: newDesc', async () => {
+          res = await request(app)        
+           .patch(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send({description: "newDesc"});
+  
+          expect(res.status).toBe(200);
+          
+          res = await request(app)        
+           .get(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send();
+          
+           resObj = JSON.parse(res.text);
+           expect(res.status).toBe(200);
+           expect(resObj.description).toBe("newDesc");
+        });
+
+        test('date: 01/03/2000', async () => {
+          res = await request(app)        
+           .patch(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send({dueDate: "01/03/2000"});
+  
+          expect(res.status).toBe(200);
+          
+          res = await request(app)        
+           .get(`/v2/tasks/${taskID}`)
+           .set('Authorization', `Bearer ${jwtGood}`)
+           .send();
+          
+           resObj = JSON.parse(res.text);
+           expect(res.status).toBe(200);
+           expect(resObj.dueDate).toBe(new Date("01/03/2000").toISOString());
+        });
+      });
+
+      test('Bad guy not able to update fields', async () => {
+        res = await request(app)        
+         .patch(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtBad}`)
+         .send(updateTask);
+        
+        // bad guy can't update.
+        expect(res.status).toBe(404);
+        
+        // Verify that the update did nothing.
+        res = await request(app)        
+         .get(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtGood}`)
+         .send();
+        
+         resObj = JSON.parse(res.text);
+         expect(res.status).toBe(200);
+         expect(resObj.name).toBe(origTask.name);
+         expect(resObj.description).toBe(origTask.description);
+         expect(resObj.dueDate).toBe(new Date(origTask.dueDate).toISOString());
+      });
+
+      test('Unknown guy not able to update fields', async () => {
+        res = await request(app)        
+         .patch(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtNotExist}`)
+         .send(updateTask);
+        
+        // unknown guy can't update.
+        expect(res.status).toBe(401);
+        
+        // Verify that the update did nothing.
+        res = await request(app)        
+         .get(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtGood}`)
+         .send();
+        
+         resObj = JSON.parse(res.text);
+         expect(res.status).toBe(200);
+         expect(resObj.name).toBe(origTask.name);
+         expect(resObj.description).toBe(origTask.description);
+         expect(resObj.dueDate).toBe(new Date(origTask.dueDate).toISOString());
+      });
+    });
+
+    describe('Validation', () => {
+      test('Unable to set a illegal stage value. {stage: "NOTVALID"}', async () => {
+        res = await request(app)        
+         .patch(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtGood}`)
+         .send({stage: "NOTVALID"});
+
+        expect(res.status).toBe(422);
+        
+        res = await request(app)        
+         .get(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtGood}`)
+         .send();
+        
+         resObj = JSON.parse(res.text);
+         expect(res.status).toBe(200);
+         expect(resObj.stage).toBe("New");
+      });
+
+      test('Unable to set a illegal key. {foo: "NOTVALID"}', async () => {
+        res = await request(app)        
+         .patch(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtGood}`)
+         .send({foo: "NOTVALID"});
+
+        expect(res.status).toBe(422);
+        
+        res = await request(app)        
+         .get(`/v2/tasks/${taskID}`)
+         .set('Authorization', `Bearer ${jwtGood}`)
+         .send();
+        
+         resObj = JSON.parse(res.text);
+         expect(res.status).toBe(200);
+         expect(resObj.stage).toBe("New");
+      });
+    });
+  });
+
   describe('PUT /v2/tasks/{id}', () => {
     let taskID;
     let origTask = {

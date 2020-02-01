@@ -2,7 +2,7 @@
  * Validate controller params using the express-validator middleware.
  */
 
-const { body } = require('express-validator')
+const { body, oneOf } = require('express-validator')
 
 const {validateTaskPatchV1, validateTaskPatchV2} = require('./customValidators');
 const constants = require('./constants');
@@ -29,9 +29,12 @@ exports.validate = (method) => {
       ];
     }
     case 'patchTaskV2': {
-      return [
-        validateTaskPatchV2
-      ];
+      return oneOf([
+        body('name', `name doesn't exists in body`).exists(),
+        body('description', `description doesn't exists in body`).exists(),
+        body('dueDate', `dueDate doesn't exists in body`).exists(),
+        body('stage', `stage doesn't exists in body or not these values ${constants.v2.stage}`).exists().isIn(constants.v2.stage),
+      ]);
     }
     case 'putTaskV1': {
       return [ 

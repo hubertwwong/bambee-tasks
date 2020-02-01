@@ -51,7 +51,7 @@ exports.validateTaskPatch = (stages, req, res, next) => {
     // Check the validity of stage key.
     if (bodyKey === 'stage') {
       let validstage = false;
-      console.log(">>>>>>>>>>");
+      //console.log(">>>>>>>>>>");
       for (let i = 0 ; i < stages.length ; i++) {
         console.log(">>>" + stages[i] + "|" + bodyVal);
         if (stages[i] == bodyVal) {

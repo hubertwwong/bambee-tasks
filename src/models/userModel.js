@@ -21,7 +21,7 @@ exports.register = async (username, password) => {
     }
 
     let existingUser = await UserGooseModel.find({username: username});
-    // User found.
+    // User not found. Can try to register the user.
     if (!existingUser || existingUser.length == 0) {
       let hash = await bcrypt.hashSync(password, parseInt(process.env.PASSWORD_HASH_ROUNDS));
       const newUser = new UserGooseModel({
@@ -30,14 +30,13 @@ exports.register = async (username, password) => {
       });
       let user = await newUser.save();
       const tokenWithUserID = await jwt.sign({id: user.id}, process.env.JWT_SECRET_KEY);
-      // console.log("> REGISTER");
-      // console.log(res);
+      
       return Promise.resolve({jwtToken: tokenWithUserID});
     }
     
     return Promise.reject(new Error(JSON.stringify({
         message: "User already exists",
-        status: 422,
+        status: 409,
       })));
   } catch(err) {
     return Promise.reject(new Error(err));
@@ -70,7 +69,7 @@ exports.signin = async (username, password) => {
       if (!res){
         return Promise.reject(new Error(JSON.stringify({
             message: "Username or password wrong",
-            status: 422
+            status: 401
           })));
       };
 

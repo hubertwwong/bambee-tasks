@@ -12,8 +12,11 @@ module.exports = (req, res, next) => {
   const errors = validationResult(req);
   // You only want this to fire if there are any error messages.
   if (!errors.isEmpty()) {
-    console.log(">IN ERROR");
-    res.status(422).json({ errors: errors.array() }).end();
-  };
-  next();
+    res.status(422).json({ 
+      errors: errors.array() 
+    });
+  } else {
+    // If no errors, continue the request.
+    next();
+  }
 }

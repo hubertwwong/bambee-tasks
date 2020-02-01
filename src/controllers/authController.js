@@ -23,6 +23,7 @@ exports.authLogin = async (req, res) => {
     let jwtTokenObj = await UserModel.signin(req.body.username, req.body.password);
     // console.log("> output of authLogin " + user);
     res.json(jwtTokenObj);
+    console.log("> GOT HERE");
   } catch(err) {
     errorRender(err, res);
   }

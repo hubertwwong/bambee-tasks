@@ -17,7 +17,7 @@ services:
       DB_NAME: ${DB_NAME}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       PASSWORD_HASH_ROUNDS: ${PASSWORD_HASH_ROUNDS}
-    command: npm run dev
+    command: npm run test --watch
   db:
     image: mongo
     restart: always

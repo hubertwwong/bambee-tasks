@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 let _db;
 
 module.exports = {
-  // 
   connectToServer: (callback) => {
     // Connect to db.
     mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}/${process.env.DB_NAME}?authSource=admin`, 

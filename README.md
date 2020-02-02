@@ -29,9 +29,15 @@ docker-compose up
 To figure out what the ip docker is running.
 Assuming you are on a linux system.
 There should be two bambee containers.
+
 You want the app ip.
 ```
 alias dockerips="docker ps -q | xargs docker inspect --format '{{ .Id }} - {{ .Name }} - {{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}'"
+```
+
+Then you can run to get the ip of express.
+You should see 2 ips. `app` is express and `db` is mongodb. You want the ip of `app`.
+```
 dockerips
 ```
 
@@ -47,8 +53,12 @@ docker-compose exec app npm test
 
 Copy `.env.local` to `.env`
 
-To start the server.
+Install packages
+```
+npm install
+```
 
+Start the server
 ```
 npm start
 ```

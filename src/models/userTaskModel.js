@@ -18,33 +18,28 @@ exports.createTask = async (userID, task) => {
     }
 
     // Find the user. Want to make sure that the user is in the db before writing to UserTask
-    let user = await UserModel.find(userID);
-    if (user) {
-      // Find the user in UserTask table
-      let userTask = null;
-      try {
-        userTask = await this.getUser(userID);
-      } catch(err) {
-        // User not found in user task. Create it.
-        userTask = new UserTaskGooseModel({
-          userID: userID,
-          tasks: []
-        });
-        await userTask.save();
-      }
-
-      // Add the task.
-      task.stage = "New";
-      userTask.tasks.push(task);
-      await userTask.save();
-      
-      return "done";
-    }
+    // NOTE: You don't need to check. Promise will reject if user is not found.
+    await UserModel.find(userID);
     
-    return Promise.reject(new Error(JSON.stringify({
-        message: "User not found",
-        status: 404
-      })));
+    // Find the user in UserTask table
+    let userTask = null;
+    try {
+      userTask = await this.getUser(userID);
+    } catch(err) {
+      // User not found in user task. Create it.
+      userTask = new UserTaskGooseModel({
+        userID: userID,
+        tasks: []
+      });
+      await userTask.save();
+    }
+
+    // Add the task.
+    task.stage = "New";
+    userTask.tasks.push(task);
+    await userTask.save();
+    
+    return "done";
   } catch(err) {
     // Nested error object. 
     // Currently passing the original error back. Thinking on how this might be better.
@@ -70,42 +65,37 @@ exports.deleteTask = async (userID, taskID) => {
     }
 
     // Find the user. Want to make sure that the user is in the db.
-    let user = await UserModel.find(userID);
-    if (user) {
-      // Find the user in UserTask table
-      let userTask = null;
-      try {
-        userTask = await this.getUser(userID);
-      } catch(err) {
-        // If it could not find the actual user in userTask, task can't be found so return an error.
-        return Promise.reject(new Error(JSON.stringify({
-          message: "Task not found",
-          status: 404
-        })));
-      }
-
-      // Find the specific task off the user.
-      let foundTask = userTask.tasks.id(taskID);
-      // Make a check if the task exist for the user
-      // If not, return an error.
-      if (!foundTask) {
-        return Promise.reject(new Error(JSON.stringify({
-          message: "Task not found",
-          status: 404
-        })));
-      }
-
-      // Delete the task.
-      foundTask.remove();
-      await userTask.save();
-      
-      return "done";
-    }
+    // NOTE: You don't need to check. Promise will reject if user is not found.
+    await UserModel.find(userID);
     
-    return Promise.reject(new Error(JSON.stringify({
-        message: "User not found",
+    // Find the user in UserTask table
+    let userTask = null;
+    try {
+      userTask = await this.getUser(userID);
+    } catch(err) {
+      // If it could not find the actual user in userTask, task can't be found so return an error.
+      return Promise.reject(new Error(JSON.stringify({
+        message: "Task not found",
         status: 404
       })));
+    }
+
+    // Find the specific task off the user.
+    let foundTask = userTask.tasks.id(taskID);
+    // Make a check if the task exist for the user
+    // If not, return an error.
+    if (!foundTask) {
+      return Promise.reject(new Error(JSON.stringify({
+        message: "Task not found",
+        status: 404
+      })));
+    }
+
+    // Delete the task.
+    foundTask.remove();
+    await userTask.save();
+    
+    return "done";
   } catch(err) {
     // Nested error object. 
     // Currently passing the original error back. 
@@ -130,6 +120,10 @@ exports.getTask = async(userID, taskID) => {
         status: 422
       })));
     }
+
+    // Find the user. 
+    // NOTE: You don't need to check. Promise will reject if user is not found.
+    await UserModel.find(userID);
 
     const userTask = await this.getUser(userID);
     const task = userTask.tasks.id(taskID); 
@@ -165,6 +159,10 @@ exports.getTasks = async (userID) => {
       })));
     }
 
+    // Find the user. 
+    // NOTE: You don't need to check. Promise will reject if user is not found.
+    await UserModel.find(userID);
+    
     const userTask = await this.getUser(userID);
     return userTask.tasks;
   } catch(err) {
@@ -191,14 +189,9 @@ exports.getUser = async (userID) => {
     // Check if the user exist.
     // Mostly to be more informative to the end user.
     // You are making an extra call for it.
-    const user = await UserModel.find(userID);
-    if (!user) {
-      return Promise.reject(new Error(JSON.stringify({
-        message: "User not found",
-        status: 404
-      })));
-    }
-
+    // NOTE: You don't need to check. Promise will reject if user is not found.
+    await UserModel.find(userID);
+    
     // Get the tasks for the user.
     let userTask = await UserTaskGooseModel.findOne({userID: userID});
     
@@ -236,15 +229,11 @@ exports.updateTask = async (userID, taskID, task) => {
       })));
     }
 
-    // Find the user. Want to make sure that the user is in the db before writing to UserTask
-    let user = await UserModel.find(userID);
-    if (!user) {
-      return Promise.reject(new Error(JSON.stringify({
-        message: "User not found",
-        status: 404
-      })));
-    }
-
+    // Find the user. 
+    // Want to make sure that the user is in the db before writing to UserTask
+    // NOTE: You don't need to check. Promise will reject if user is not found.
+    await UserModel.find(userID);
+    
     // Find the user in UserTask table
     let userTask = null;
     try {

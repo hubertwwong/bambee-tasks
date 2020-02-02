@@ -12,7 +12,6 @@ const port = process.env.APP_PORT || 3000;
 async function connectToDB() {
   try {
     // Wait for the db to connect.
-    console.log('> connecting to mongoose');
     db = await mongooseAsync.connect();
     return "done";
   } catch(err) {
@@ -53,7 +52,6 @@ async function run() {
     appRoutes = require('../routes/index')(app); 
 
     // Start express.
-    console.log("> on server");
     // DON'T LISTEN ON A PORT IF USING TEST ENV.
     // SUPER TEST DOES NOT NEED ONE.
     if (process.env.NODE_ENV !== 'test') {

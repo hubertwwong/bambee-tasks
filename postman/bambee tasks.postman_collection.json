@@ -1,0 +1,573 @@
+{
+	"info": {
+		"_postman_id": "7ccb73d1-8a1b-487a-bb83-84a548a96e49",
+		"name": "bambee tasks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "v2",
+					"item": [
+						{
+							"name": "tasks",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzVmMDU5MDBiYTA5MDAxZTYwN2Q4ZiIsImlhdCI6MTU4MDU5MzI0MX0.0_L23NQN9yAxln44xTyI24DN3Lp239rEcqWywxILoeU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{url}}/v2/tasks",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v2",
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks/{id}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzUwZDRlYTZkNTRhMDAxZGM3NzJhMCIsImlhdCI6MTU4MDUzNTI5Mn0.AOkkjDAPrCRHYGtRj7ddD3Ub_hB2cbN1P6zE7ytqlqI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{url}}/v2/tasks/5e350e2da6d54a001dc772a2",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v2",
+										"tasks",
+										"5e350e2da6d54a001dc772a2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzVmMDU5MDBiYTA5MDAxZTYwN2Q4ZiIsImlhdCI6MTU4MDU5MzI0MX0.0_L23NQN9yAxln44xTyI24DN3Lp239rEcqWywxILoeU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization-",
+										"value": "foo",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"task1\",\n\t\"description\": \"desc1\",\n\t\"dueDate\": \"04/04/2020\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{url}}/v2/tasks",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v2",
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks/{id}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzcxMzMxNjg3ZmExMDAxMTY4YjhmMCIsImlhdCI6MTU4MDY2NzY5N30.yWC7ZS_r6NQkS-nVE-_ZmBfrncvf9A5ZoWJPORbcpLc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"name of task\",\n    \"description\": \"Third\",\n    \"dueDate\": \"2020-02-03T00:00:00.000Z\",\n    \"stage\": \"New\"\n}"
+								},
+								"url": {
+									"raw": "http://{{url}}/v2/tasks/5e35f07400ba09001e607d91",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v2",
+										"tasks",
+										"5e35f07400ba09001e607d91"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks/{id}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzQ4YzVkMDYzNWNiMDIxZDI0MDIzNSIsImlhdCI6MTU4MDUwMjUzM30.mBo8AoPrFV454rXrALLzbsv2_ifQzl_5Oz2Cr0k4CZQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{url}}/v2/tasks/5e34904edbadfc001e34d8e5",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v2",
+										"tasks",
+										"5e34904edbadfc001e34d8e5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks/{id}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzQ4YzVkMDYzNWNiMDIxZDI0MDIzNSIsImlhdCI6MTU4MDUwMjUzM30.mBo8AoPrFV454rXrALLzbsv2_ifQzl_5Oz2Cr0k4CZQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"nnnn\",\n\t\"stage\": \"Completed\"\n}"
+								},
+								"url": {
+									"raw": "http://{{url}}/v2/tasks/5e348e080ecf02035cb2eb83",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v2",
+										"tasks",
+										"5e348e080ecf02035cb2eb83"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "v1",
+					"item": [
+						{
+							"name": "tasks",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzUwZDRlYTZkNTRhMDAxZGM3NzJhMCIsImlhdCI6MTU4MDUzNTI5Mn0.AOkkjDAPrCRHYGtRj7ddD3Ub_hB2cbN1P6zE7ytqlqI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{url}}/v1/tasks",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks/{id}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzUwZDRlYTZkNTRhMDAxZGM3NzJhMCIsImlhdCI6MTU4MDUzNTI5Mn0.AOkkjDAPrCRHYGtRj7ddD3Ub_hB2cbN1P6zE7ytqlqI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{url}}/v1/tasks/5e350e2da6d54a001dc772a2",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"tasks",
+										"5e350e2da6d54a001dc772a2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzRkOWQ1MjgzMjczMDA3ZTJhN2Y0OCIsImlhdCI6MTU4MDUyMTk0MX0.NnlD4TJvLwmHLujyOKSQJkIMGxlY1YLlrJFbynxPcRU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"foo2\",\n\t\"description\": \"secound desc\",\n\t\"dueDate\": \"02/04/2020\"\n}"
+								},
+								"url": {
+									"raw": "http://{{url}}/v1/tasks",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks/{id}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzQ4YzVkMDYzNWNiMDIxZDI0MDIzNSIsImlhdCI6MTU4MDUwMjUzM30.mBo8AoPrFV454rXrALLzbsv2_ifQzl_5Oz2Cr0k4CZQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Third\",\n    \"description\": \"Third\",\n    \"dueDate\": \"2020-02-03T00:00:00.000Z\",\n    \"stage\": \"In-Progress\"\n}"
+								},
+								"url": {
+									"raw": "http://{{url}}/v1/tasks/5e34904edbadfc001e34d8e5",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"tasks",
+										"5e34904edbadfc001e34d8e5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks/{id}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzQ4YzVkMDYzNWNiMDIxZDI0MDIzNSIsImlhdCI6MTU4MDUwMjUzM30.mBo8AoPrFV454rXrALLzbsv2_ifQzl_5Oz2Cr0k4CZQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{url}}/v1/tasks/5e34904edbadfc001e34d8e5",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"tasks",
+										"5e34904edbadfc001e34d8e5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "tasks/{id}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzQ4YzVkMDYzNWNiMDIxZDI0MDIzNSIsImlhdCI6MTU4MDUwMjUzM30.mBo8AoPrFV454rXrALLzbsv2_ifQzl_5Oz2Cr0k4CZQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"nnnn\",\n\t\"stage\": \"Completed\"\n}"
+								},
+								"url": {
+									"raw": "http://{{url}}/v1/tasks/5e348e080ecf02035cb2eb83",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"tasks",
+										"5e348e080ecf02035cb2eb83"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "v1",
+					"item": [
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "username",
+										"value": "foo",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"foo\",\n    \"password\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "http://{{url}}/v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzUwZDRlYTZkNTRhMDAxZGM3NzJhMCIsImlhdCI6MTU4MDUzNTExOH0.3jIgSh6avWZizlrhCzoVKUFIx-t6T2g_SBh-Cok9000",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"foo\",\n\t\"password\": \"password\"\n}"
+								},
+								"url": {
+									"raw": "http://{{url}}/v1/auth/register",
+									"protocol": "http",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

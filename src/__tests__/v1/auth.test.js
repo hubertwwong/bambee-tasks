@@ -1,6 +1,6 @@
 const request = require('supertest');
 
-const server = require('../../servers/server');
+const server = require('../../servers/servers');
 const UserGooseModel = require('../../mongoose/models/userGooseModel');
 
 // exprexs
@@ -8,8 +8,9 @@ let app;
 
 beforeAll(async () => {
   try {
-    await server.connectToDB();
-    app = await server.run();
+    // await server.connectMongoose();
+    // app = await server.configExpress();
+    app = await server.runTest();
   } catch(err) {
     console.log(err);
   }
@@ -17,6 +18,7 @@ beforeAll(async () => {
 
 // https://github.com/visionmedia/supertest/issues/520
 afterAll(async () => {
+  await server.stopTest();
 	await new Promise(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
 });
 

@@ -1,6 +1,4 @@
-const server = require('./servers/server');
+const server = require('./servers/servers');
 
-// Starts connection to mongo.
-server.connectToDB();
-// Start express.
+// Starts the API.
 server.run();

@@ -30,22 +30,16 @@ async function run() {
     
     // Register middleware
     // ===================
-    
-    // express own body parser.
-    // app.use(express.bodyParser());
 
-    // parse application/x-www-form-urlencoded
-    // extended: true strips out extra spaces and \n\t.
-    //app.use(bodyParser.urlencoded({ extended: true }))
-    
-    // parse application/json
-    //app.use(bodyParser.json())
-    
     // Apparently the order matters of these 2 items.
     // These go frist...
     // https://stackoverflow.com/questions/39470566/request-body-undefined-in-supertest
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
+    
+    // express own body parser.
+    // app.use(express.bodyParser());
+    // SEEMS BROKEN
 
     // CORS
     app.use(cors());

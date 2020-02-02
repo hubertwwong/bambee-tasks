@@ -34,7 +34,7 @@ describe('auth', () => {
           .send({username: 'foo1111', password: 'bar'});
 
         expect(res.status).toBe(200);
-        expect(JSON.parse(res.text).jwtToken).not.toBe(null);
+        expect(JSON.parse(res.text).jwt).not.toBe(null);
       });
 
       test('User unable to login with wrong password', async () => {
@@ -90,7 +90,7 @@ describe('auth', () => {
           .send({username: 'foo1111', password: 'bar'});
         
         expect(res.status).toBe(200);
-        expect(JSON.parse(res.text).jwtToken).not.toBe(null);
+        expect(JSON.parse(res.text).jwt).not.toBe(null);
       });
 
       test('Unable to register a existing user', async () => {

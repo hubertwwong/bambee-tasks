@@ -31,7 +31,7 @@ exports.register = async (username, password) => {
       let user = await newUser.save();
       const tokenWithUserID = await jwt.sign({id: user.id}, process.env.JWT_SECRET_KEY);
       
-      return Promise.resolve({jwtToken: tokenWithUserID});
+      return Promise.resolve({jwt: tokenWithUserID});
     }
     
     return Promise.reject(new Error(JSON.stringify({
@@ -75,11 +75,7 @@ exports.signin = async (username, password) => {
 
       // Returning the user.
       const tokenWithUserID = await jwt.sign({id: existingUser.id}, process.env.JWT_SECRET_KEY);
-      // console.log(existingUser);
-      // console.log(token);
-      // const ba = await jwt.verify(token, process.env.JWT_SECRET_KEY);
-      // console.log(ba);
-      return Promise.resolve({jwtToken: tokenWithUserID});
+      return Promise.resolve({jwt: tokenWithUserID});
     }
     
     return Promise.reject(new Error(JSON.stringify({

@@ -23,11 +23,8 @@ exports.createTask = async (userID, task) => {
       // Find the user in UserTask table
       let userTask = null;
       try {
-        // console.log("> getting user in usertask");
         userTask = await this.getUser(userID);
-        // console.log("> got user task" + userTask);
       } catch(err) {
-        // console.log("> hit the catch block");
         // User not found in user task. Create it.
         userTask = new UserTaskGooseModel({
           userID: userID,
@@ -37,11 +34,10 @@ exports.createTask = async (userID, task) => {
       }
 
       // Add the task.
-      // console.log("> before pushing task " + userTask);
       task.stage = "New";
       userTask.tasks.push(task);
       await userTask.save();
-      // console.log("> after pushing task " + userTask);
+      
       return "done";
     }
     
@@ -66,7 +62,6 @@ exports.createTask = async (userID, task) => {
  */
 exports.deleteTask = async (userID, taskID) => {
   try {
-    // console.log("> delete task model");
     if (!userID || !taskID) {
       return Promise.reject(new Error(JSON.stringify({
         message: "Param not specified",
@@ -76,12 +71,10 @@ exports.deleteTask = async (userID, taskID) => {
 
     // Find the user. Want to make sure that the user is in the db.
     let user = await UserModel.find(userID);
-    // console.log("> AFTER user " + user);
     if (user) {
       // Find the user in UserTask table
       let userTask = null;
       try {
-        // console.log("> getting user in usertask");
         userTask = await this.getUser(userID);
       } catch(err) {
         // If it could not find the actual user in userTask, task can't be found so return an error.
@@ -92,7 +85,6 @@ exports.deleteTask = async (userID, taskID) => {
       }
 
       // Find the specific task off the user.
-      // console.log("> before pushing task " + userTask);
       let foundTask = userTask.tasks.id(taskID);
       // Make a check if the task exist for the user
       // If not, return an error.
@@ -104,10 +96,8 @@ exports.deleteTask = async (userID, taskID) => {
       }
 
       // Delete the task.
-      // console.log(foundTask);
       foundTask.remove();
       await userTask.save();
-      // console.log("> after pushing task " + userTask.tasks);
       
       return "done";
     }
@@ -118,7 +108,8 @@ exports.deleteTask = async (userID, taskID) => {
       })));
   } catch(err) {
     // Nested error object. 
-    // Currently passing the original error back. Thinking on how this might be better.
+    // Currently passing the original error back. 
+    // Thinking on how this might be better.
     if (err.message) {return Promise.reject(err); }
     return Promise.reject(new Error(err));
   }
@@ -149,6 +140,7 @@ exports.getTask = async(userID, taskID) => {
         status: 404
       })));
     }
+
     return task;
   } catch(err) {
     if (err.message) {return Promise.reject(err); }
@@ -196,10 +188,10 @@ exports.getUser = async (userID) => {
       })));
     }
 
+    // THIS SEEMS SUUUUUUUUUUUUUUUUUUUUUSPECT
     if (userID) {
       let userTask = await UserTaskGooseModel.findOne({userID: userID});
-      // console.log("> retruring " + userTask);
-
+      
       // Check if UserTask was found or not once you verified the user exist.
       if (!userTask) {
         // Favoring returning an empty array rathen than an error.

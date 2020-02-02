@@ -1,5 +1,9 @@
 /**
- * express-validator middleware configuration.
+ * express-validator configuration
+ * 
+ * To use:
+ * 1. require this file in the route file.
+ * 2. Specify the validation. (e.g. v.validate("createTask"))
  * 
  * I kept the validation simple.
  * Just validiating if dates are iso and that other fields exist.

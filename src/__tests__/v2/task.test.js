@@ -32,12 +32,12 @@ describe('task', () => {
     let res = await request(app)        
       .post('/v1/auth/register')
       .send({username: 'good', password: 'password'});
-    jwtGood = JSON.parse(res.text).jwtToken;
+    jwtGood = JSON.parse(res.text).jwt;
 
     res = await request(app)
       .post('/v1/auth/register')
       .send({username: 'bad', password: 'password'});
-    jwtBad = JSON.parse(res.text).jwtToken;
+    jwtBad = JSON.parse(res.text).jwt;
   });
 
   describe('POST /v2/tasks', () => {

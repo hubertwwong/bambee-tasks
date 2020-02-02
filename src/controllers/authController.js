@@ -4,7 +4,7 @@ const {errorRender} = require('../util/misc');
 /**
  * Login a user
  * 
- * Upon sucessful login, this will return a jwtToken.
+ * Upon sucessful login, this will return a jwt.
  * 
  * Request body should look like:
  * {
@@ -14,13 +14,13 @@ const {errorRender} = require('../util/misc');
  * 
  * Token should come in this format.
  * {
- *  jwtToken: YourJWTToken
+ *  jwt: YourJWT
  * }
  */
 exports.authLogin = async (req, res) => {
   try {
-    let jwtTokenObj = await UserModel.signin(req.body.username, req.body.password);
-    res.json(jwtTokenObj);
+    let jwtObj = await UserModel.signin(req.body.username, req.body.password);
+    res.json(jwtObj);
   } catch(err) {
     errorRender(err, res);
   }
@@ -29,7 +29,7 @@ exports.authLogin = async (req, res) => {
 /**
  * Register a user.
  * 
- * Upon sucessful login, this will return a jwtToken.
+ * Upon sucessful login, this will return a jwt.
  * 
  * Request body should look like:
  * {
@@ -39,13 +39,13 @@ exports.authLogin = async (req, res) => {
  * 
  * Token should come in this format.
  * {
- *  jwtToken: YourJWTToken
+ *  jwt: YourJWT
  * }
  */
 exports.authRegister = async (req, res) => {
   try {
-    let jwtTokenObj = await UserModel.register(req.body.username, req.body.password);
-    res.json(jwtTokenObj);
+    let jwtObj = await UserModel.register(req.body.username, req.body.password);
+    res.json(jwtObj);
   } catch(err) {
     errorRender(err, res);
   }

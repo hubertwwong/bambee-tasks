@@ -10,10 +10,8 @@ const { validationResult } = require('express-validator');
 // Need module.exports and not exports.
 // Also note that if you do specify err, it has to be the last middleware
 module.exports = (req, res, next) => {
-  // console.log('>>>>>>>>>>>>>> ERR MIDDLEWARE REPORT');
   const errors = validationResult(req);
-
-  // 
+ 
   // https://github.com/auth0/express-jwt/issues/189
   // console.log(err);
   // if (err.name === 'UnauthorizedError') {

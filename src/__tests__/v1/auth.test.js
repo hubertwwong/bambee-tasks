@@ -15,6 +15,11 @@ beforeAll(async () => {
   }
 });
 
+// https://github.com/visionmedia/supertest/issues/520
+afterAll(async () => {
+	await new Promise(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
+});
+
 describe('auth', () => {
   beforeEach(async () => {
     // Wipe the table before starting each test.

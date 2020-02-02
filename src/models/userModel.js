@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-//var token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
 const UserGooseModel = require('../mongoose/models/userGooseModel');
 
